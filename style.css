@@ -1,0 +1,65 @@
+body {
+    font-family: 'Courier New', Courier, monospace;
+    text-align: center;
+    /* background-color: #cacaca; */
+}
+
+h1 {
+    color: black;
+    font-weight: 600;
+}
+
+th {
+    color: white;
+    font-size: 22px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+table {
+    width: 50%;
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+tbody{
+    font-family: sans-serif;
+}
+
+tr {
+    background-color: rgb(243, 243, 243);
+}
+
+td {
+    height: 50px;
+}
+
+thead tr:first-child {
+    background-color: #1b73e8 !important;
+}
+
+tr td:first-child {
+    text-align: center;
+}
+
+.btn {
+    height: 30px;
+    width: 80px;
+}
+
+tr:nth-child(even) {
+    background-color: white;
+    color: blue;
+}
+
+.spend{
+    font-weight: bold;
+    color: red;
+}
+
+.income{
+    font-weight: bold;
+    color: green;
+}
