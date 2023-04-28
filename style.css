@@ -17,11 +17,13 @@ th {
 }
 
 table {
-    width: 50%;
+    width: 70%;
     border-collapse: collapse;
     margin-left: auto;
     margin-right: auto;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    overflow: auto;
+    max-height: 200px;
 }
 
 tbody{
@@ -34,6 +36,8 @@ tr {
 
 td {
     height: 50px;
+    max-width: 500px;
+    word-break: break-word;
 }
 
 thead tr:first-child {
@@ -47,6 +51,21 @@ tr td:first-child {
 .btn {
     height: 30px;
     width: 80px;
+    background-color: blue;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}
+
+.btn-delete {
+    height: 30px;
+    width: 80px;
+    background-color: red;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
 }
 
 tr:nth-child(even) {
@@ -62,4 +81,8 @@ tr:nth-child(even) {
 .income{
     font-weight: bold;
     color: green;
+}
+
+.content{
+    width: 220px !important;
 }
