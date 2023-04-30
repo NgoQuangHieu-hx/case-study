@@ -16,7 +16,7 @@
         <div class="head">
             <input type="text" id="search" placeholder="Search some thing.............." onkeyup="searchOnChange()"
                 onpaste="searchOnChange()">
-            <button class="btn-add">Add new record</button>
+            <button class="btn-add" onclick="displayAddForm()">Add new record</button>
         </div>
         <div>
             <table id="table-total">
@@ -33,6 +33,49 @@
                 <tbody id="body-table">
                 </tbody>
             </table>
+        </div>
+    </div>
+
+    <div id="add-form" class="form">
+        <div class="form-content">
+            <h1 id="form-title"></h1>
+            <div class="input-add">
+                <div id="error">Message error</div>
+                <table id="table-add">
+                    <tr>
+                        <td>
+                            <h3>Content</h3>
+                        </td>
+                        <td>
+                            <input type="text" class="in" id="input-form-content">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h3>Amount</h3>
+                        </td>
+                        <td>
+                            <input type="number" class="in" id="input-amount-content">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h3>Type</h3>
+                        </td>
+                        <td>
+                            <input type="radio" id="income" name="type" value="income">
+                            <label for="income" class="income">Income</label>
+                            <input type="radio" id="spend" name="type" value="spend">
+                            <label for="spend" class="spend">Spend</label><br>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <button class="btn" id="btnSave" onclick="saveRecord()">Save</button>
+                <button class="btn" id="btnAdd" onclick="addRecord()">Add</button>
+                <button class="btn-delete" onclick="cancelAddForm()">Cancel</button>
+            </div>
         </div>
     </div>
 </body>

@@ -24,10 +24,10 @@ function setDataTable() {
                     ${type}
                     <td class="created">${expenseData[i].createdTime}</td>
                     <td class="action">
-                    <button class="btn-delete" order=${i} onClick="deleteRecord(this)">
+                    <button class="btn-delete" onClick="deleteRecord(${i})">
                         <span>Delete</span>
                     </button>
-                    <button class="btn">
+                    <button class="btn" onClick="editRecord(${i})">
                         <span>
                             Edit
                         </span>
@@ -48,23 +48,183 @@ function createTimeNow() {
 }
 
 function deleteRecord(index) {
-    index = index.getAttribute('order');
-    expenseData = JSON.parse(localStorage.getItem('expenseData'));
-    expenseData.splice(index, 1);
-    localStorage.setItem('expenseData', JSON.stringify(expenseData));
-    setDataTable();
+    if (confirm("Are you sure want to delete this record ?")) {
+        expenseData = JSON.parse(localStorage.getItem('expenseData'));
+        expenseData.splice(index, 1);
+        localStorage.setItem('expenseData', JSON.stringify(expenseData));
+        setDataTable();
+    }
 }
 
 function searchOnChange() {
     valueText = document.getElementById('search').value.trim();
     if (valueText != valueSearch) {
         valueSearch = valueText;
-        searchAndFillDataTable(valueSearch);
+        if (valueSearch != '') {
+            searchAndFillDataTable(valueSearch);
+        } else {
+            setDataTable();
+        }
     }
 }
 
-function searchAndFillDataTable() {
+function searchAndFillDataTable(valueSearch) {
+    expenseData = [];
+    result = [];
+    if (JSON.parse(localStorage.getItem('expenseData')) != null) {
+        expenseData = JSON.parse(localStorage.getItem('expenseData'));
+    }
 
+    for (let i = 0; i < expenseData.length; i++) {
+        if (expenseData[i].content.toLowerCase().includes(valueSearch.toLowerCase())) {
+            result.push(expenseData[i]);
+            continue;
+        }
+
+        if ((expenseData[i].amount + ' VND').toLowerCase().includes(valueSearch.toLowerCase())) {
+            result.push(expenseData[i]);
+            continue;
+        }
+
+        if (expenseData[i].createdTime.toLowerCase().includes(valueSearch.toLowerCase())) {
+            result.push(expenseData[i]);
+            continue;
+        }
+
+        if (valueSearch.toLowerCase() == 'spend' && expenseData[i].type == false) {
+            result.push(expenseData[i]);
+            continue;
+        }
+    }
+
+    document.getElementById('body-table').innerHTML = '';
+    resultHtml = ``;
+    for (let i = 0; i < result.length; i++) {
+        type = ``;
+        if (result[i].type) {
+            type = `<td class="income type">Income</td>`;
+        } else {
+            type = `<td class="spend type">Spend</td>`;
+        }
+        resultHtml += `
+            <tr>
+                <td class="order">${i + 1}</td>
+                <td class="content">${result[i].content}</td>
+                <td class="amount">${result[i].amount} VND</td>
+                ${type}
+                <td class="created">${result[i].createdTime}</td>
+                <td class="action">
+                <button class="btn-delete" onClick="deleteRecord(${i})">
+                    <span>Delete</span>
+                </button>
+                <button class="btn" onClick="editRecord(${i})">
+                    <span>
+                        Edit
+                    </span>
+                </button>
+            </td>
+            </tr>
+        `;
+    }
+
+    document.getElementById('body-table').innerHTML = resultHtml;
+}
+
+function cancelAddForm() {
+    document.getElementById('add-form').style.display = "none";
+    document.getElementById('error').style.display = "none";
+}
+
+function displayAddForm() {
+    document.getElementById('btnSave').style.display = "none";
+    document.getElementById('btnAdd').style.display = "initial";
+
+    document.getElementById('form-title').innerHTML = "Add new record";
+    document.getElementById('income').checked = "true";
+    document.getElementById('add-form').style.display = "block";
+    document.getElementById('input-form-content').value = "";
+    document.getElementById('input-amount-content').value = "";
+}
+
+function addRecord() {
+    document.getElementById('error').style.display = "none";
+    if (simpleValidate()) {
+        expenseData = [];
+        if (JSON.parse(localStorage.getItem('expenseData')) != null) {
+            expenseData = JSON.parse(localStorage.getItem('expenseData'));
+        }
+
+        object = {
+            content: document.getElementById('input-form-content').value,
+            amount: document.getElementById('input-amount-content').value,
+            type: true,
+            createdTime: createTimeNow(),
+        }
+        expenseData.push(object);
+        localStorage.setItem('expenseData', JSON.stringify(expenseData));
+        searchAndFillDataTable(document.getElementById('search').value.trim());
+        document.getElementById('add-form').style.display = "none";
+    }
+}
+
+function editRecord(index) {
+    document.getElementById('form-title').innerHTML = "Edit record";
+    document.getElementById('add-form').style.display = "block";
+    document.getElementById('btnSave').style.display = "initial";
+    document.getElementById('btnAdd').style.display = "none";
+
+    expenseData = JSON.parse(localStorage.getItem('expenseData'));
+    document.getElementById('input-form-content').value = expenseData[index].content;
+    document.getElementById('input-amount-content').value = expenseData[index].amount;
+
+    if (expenseData[index].type == true) {
+        document.getElementById('income').checked = "true";
+    } else {
+        document.getElementById('spend').checked = "true";
+    }
+    document.getElementById("btnSave").setAttribute("index", index);
+}
+
+function saveRecord() {
+    document.getElementById('error').style.display = "none";
+    if (simpleValidate()) {
+        index = document.getElementById("btnSave").getAttribute('index');
+        expenseData = JSON.parse(localStorage.getItem('expenseData'));
+
+        expenseData[index].content = document.getElementById('input-form-content').value;
+        expenseData[index].amount = document.getElementById('input-amount-content').value;
+        expenseData[index].type = document.getElementById('income').checked;
+
+        localStorage.setItem('expenseData', JSON.stringify(expenseData));
+        searchAndFillDataTable(document.getElementById('search').value.trim());
+        document.getElementById('add-form').style.display = "none";
+    }
+}
+
+function simpleValidate() {
+    document.getElementById('error').innerHTML = '';
+    content = document.getElementById('input-form-content').value;
+    amount = document.getElementById('input-amount-content').value;
+
+    if (content == '') {
+        document.getElementById('error').innerHTML = 'Content cannot be null';
+        document.getElementById('error').style.display = "block";
+        return false;
+    }
+
+    if (amount == '') {
+        document.getElementById('error').innerHTML = 'Amount cannot be null';
+        document.getElementById('error').style.display = "block";
+        return false;
+    }
+
+    if (content == '' && amount == '') {
+        document.getElementById('error').innerHTML = 'Content and Amount cannot be null';
+        document.getElementById('error').style.display = "block";
+        return false;
+    }
+
+    return true;
 }
 
 function fakeData(number = 1) {
