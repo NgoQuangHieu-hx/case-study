@@ -11,74 +11,30 @@
 </head>
 
 <body>
-    <h1>Manage personal expenses</h1>
-    <!-- <h1>ngon</h1> -->
-    <table id="table-total">
-        <thead>
-            <tr>
-                <th class="order">No</th>
-                <th class="content">Content</th>
-                <th class="amount">Amount</th>
-                <th class="type">Type</th>
-                <th class="type">Created Time</th>
-                <th class="action">Action</th>
-            </tr>
-        </thead>
-        <tbody id="body-table">
-            <tr>
-                <td>1</td>
-                <td>Đây là nội dung</td>
-                <td>100.000.000 VND</td>
-                <td class="spend">Spend</td>
-                <td>2:56 4/28/2023</td>
-                <td>
-                    <button class="btn-delete">
-                        <span>Delete</span>
-                    </button>
-                    <button class="btn">
-                        <span>
-                            Edit
-                        </span>
-                    </button>
-                </td>
-            </tr>
-
-            <tr>
-                <td>2</td>
-                <td>Đây là nội dung 2</td>
-                <td>200.000.000 VND</td>
-                <td class="income">Income</td>
-                <td>2:56 4/28/2023</td>
-                <td>
-                    <button class="btn-delete">
-                        <span>Delete</span>
-                    </button>
-                    <button class="btn">
-                        <span>
-                            Edit
-                        </span>
-                    </button>
-                </td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Đây là nội dung 3</td>
-                <td>200.000.000 VND</td>
-                <td class="income">Income</td>
-                <td>2:56 4/28/2023</td>
-                <td>
-                    <button class="btn-delete">
-                        <span>Delete</span>
-                    </button>
-                    <button class="btn">
-                        <span>
-                            Edit
-                        </span>
-                    </button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="conainer">
+        <h1>Manage personal expenses</h1>
+        <div class="head">
+            <input type="text" id="search" placeholder="Search some thing.............." onkeyup="searchOnChange()"
+                onpaste="searchOnChange()">
+            <button class="btn-add">Add new record</button>
+        </div>
+        <div>
+            <table id="table-total">
+                <thead>
+                    <tr>
+                        <th class="order"> No</th>
+                        <th class="content">Content</th>
+                        <th class="amount">Amount</th>
+                        <th class="type">Type</th>
+                        <th class="created">Created Time</th>
+                        <th class="action">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="body-table">
+                </tbody>
+            </table>
+        </div>
+    </div>
 </body>
 
 </html>

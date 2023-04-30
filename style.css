@@ -17,17 +17,22 @@ th {
 }
 
 table {
-    width: 70%;
+    width: fit-content;
     border-collapse: collapse;
     margin-left: auto;
     margin-right: auto;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-    overflow: auto;
-    max-height: 200px;
+    display: inline-block;
+    background-color: #1b73e8 !important;
 }
 
-tbody{
+tbody {
     font-family: sans-serif;
+    width: fit-content;
+    display: block;
+    overflow: auto;
+    max-height: 650px;
+    height: fit-content;
 }
 
 tr {
@@ -51,7 +56,7 @@ tr td:first-child {
 .btn {
     height: 30px;
     width: 80px;
-    background-color: blue;
+    background-color: rgb(27, 115, 232);
     border: none;
     border-radius: 5px;
     color: white;
@@ -73,16 +78,73 @@ tr:nth-child(even) {
     color: blue;
 }
 
-.spend{
+.order {
+    width: 40px;
+}
+
+.spend {
     font-weight: bold;
     color: red;
 }
 
-.income{
+.income {
     font-weight: bold;
     color: green;
 }
 
-.content{
+.content {
     width: 220px !important;
+}
+
+.amount {
+    width: 220px !important;
+}
+
+.type {
+    width: 105px !important;
+}
+
+.created {
+    width: 250px !important;
+}
+
+.action {
+    width: 216px !important;
+}
+
+#search {
+    width: 30%;
+    height: 35px;
+    font-size: 15px;
+    border: 2px solid rgb(193,193,193);
+    border-radius: 5px;
+}
+
+.conainer {
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.head {
+    text-align: end;
+    margin-bottom: 10px;
+}
+
+.btn-add {
+    height: 40px;
+    width: 150px;
+    background-color: rgb(27, 115, 232);
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
 }

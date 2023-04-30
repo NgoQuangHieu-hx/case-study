@@ -1,4 +1,5 @@
 window.onload = function () {
+    valueSearch = '';
     setDataTable();
 };
 
@@ -7,24 +8,23 @@ function setDataTable() {
 
     if (localStorage.getItem('expenseData') != null) {
         expenseData = JSON.parse(localStorage.getItem('expenseData'));
-        console.log(expenseData);
 
         for (let i = 0; i < expenseData.length; i++) {
             type = ``;
             if (expenseData[i].type) {
-                type = `<td class="income">Income</td>`;
+                type = `<td class="income type">Income</td>`;
             } else {
-                type = `<td class="spend">Spend</td>`;
+                type = `<td class="spend type">Spend</td>`;
             }
             result += `
                 <tr>
-                    <td>${i + 1}</td>
-                    <td>${expenseData[i].content}</td>
-                    <td>${expenseData[i].amount} VND</td>
+                    <td class="order">${i + 1}</td>
+                    <td class="content">${expenseData[i].content}</td>
+                    <td class="amount">${expenseData[i].amount} VND</td>
                     ${type}
-                    <td>${expenseData[i].createdTime}</td>
-                    <td>
-                    <button class="btn-delete">
+                    <td class="created">${expenseData[i].createdTime}</td>
+                    <td class="action">
+                    <button class="btn-delete" order=${i} onClick="deleteRecord(this)">
                         <span>Delete</span>
                     </button>
                     <button class="btn">
@@ -36,8 +36,9 @@ function setDataTable() {
                 </tr>
             `;
         }
+        document.getElementById('body-table').innerHTML = result;
+        document.getElementById("table-total").style.display = "inline-block";
     }
-    document.getElementById('body-table').innerHTML = result;
 }
 
 function createTimeNow() {
@@ -46,22 +47,42 @@ function createTimeNow() {
     return now;
 }
 
+function deleteRecord(index) {
+    index = index.getAttribute('order');
+    expenseData = JSON.parse(localStorage.getItem('expenseData'));
+    expenseData.splice(index, 1);
+    localStorage.setItem('expenseData', JSON.stringify(expenseData));
+    setDataTable();
+}
+
+function searchOnChange() {
+    valueText = document.getElementById('search').value.trim();
+    if (valueText != valueSearch) {
+        valueSearch = valueText;
+        searchAndFillDataTable(valueSearch);
+    }
+}
+
+function searchAndFillDataTable() {
+
+}
+
 function fakeData(number = 1) {
     expenseData = [];
     if (JSON.parse(localStorage.getItem('expenseData')) != null) {
         expenseData = JSON.parse(localStorage.getItem('expenseData'));
     }
-    maxIndex = expenseData.length;
 
-    const fakeObject = {
-        id: (maxIndex + 1),
-        content: 'HieuNQ14',
-        amount: 123456789,
-        type: true,
-        createdTime: createTimeNow(),
-        deleteFlg: false
+    for (let i = 0; i < number; i++) {
+        const fakeObject = {
+            content: 'DataFake' + Math.floor(Math.random() * 1000),
+            amount: Math.floor(Math.random() * 100000),
+            type: Math.floor(Math.random() * 1000) % 2 == 0,
+            createdTime: createTimeNow(),
+        }
+        expenseData.push(fakeObject);
     }
-    expenseData.push(fakeObject);
+
     localStorage.setItem('expenseData', JSON.stringify(expenseData));
     setDataTable();
 }
